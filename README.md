@@ -1,75 +1,20 @@
-# Nuxt Minimal Starter
+# AccessAI
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Aplicação Nuxt 4 que executa uma auditoria de acessibilidade com Playwright e axe-core e oferece explicações opcionais via OpenAI Responses API.
 
-## Setup
+## Configuração local
 
-Make sure to install dependencies:
+Requer Node.js e Chromium compatível com Playwright. Instale dependências com `pnpm install` e copie `.env.example` para `.env`. Defina `NUXT_AUDIT_ENABLED=true` somente para desenvolvimento local em servidor vinculado a loopback. Se quiser explicações por IA, configure `NUXT_OPENAI_API_KEY`; a auditoria axe-core continua disponível sem essa chave. O modelo pode ser alterado com `NUXT_OPENAI_MODEL`.
 
-```bash
-# npm
-npm install
+Inicie com `pnpm dev` e acesse `http://localhost:3000`.
 
-# pnpm
-pnpm install
+## Endpoints
 
-# yarn
-yarn install
+- `POST /api/audit` com `{ "url": "https://example.com" }` executa Playwright + axe-core.
+- `POST /api/ai/analyze` com `{ "audit": <resultado> }` interpreta os problemas sem repetir a navegação.
 
-# bun
-bun install
-```
+## Segurança
 
-## Development Server
+O endpoint de auditoria permanece desativado por padrão (`NUXT_AUDIT_ENABLED=false`). A verificação de URL e os interceptores do Playwright bloqueiam protocolos e destinos privados, incluindo requisições secundárias, mas a validação DNS em aplicação não elimina por completo DNS rebinding. Antes de expor o serviço publicamente, implemente isolamento de saída no nível de rede para o processo/container do Chromium. A chave da OpenAI fica apenas no runtime privado do servidor.
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+As violações automáticas são evidências para revisão, não uma certificação de conformidade WCAG.

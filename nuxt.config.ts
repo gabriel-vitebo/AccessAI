@@ -11,5 +11,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     openaiApiKey: '',
+    openaiModel: 'gpt-4.1-mini',
+    auditEnabled: true,
   }
 })
