@@ -1,0 +1,1 @@
+SITE => cola o link => manda o link para o playwhrith => analisa a acessibilidade da pagina => devolve os dados em JSON => exibimos as informacoes em formato de chat ou elbora um informaçoes em graficos
